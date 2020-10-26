@@ -15,6 +15,12 @@ So the requirement is:
 
 I write a small python script to achieve this goal, benefiting from the Python Script plugin of the Notepad++.
 
+## Usage
+  - Firstly, copy the python script to your notepad++ plugin dir(for example: npp.7.9.portable\plugins\PythonScript\scripts).
+  - Launch notepad++, goto "plugins" -> "Python Script" -> "Script" -> "secure-my-code.py".
+  - For the first time, it requests the password to encrypt the document and keeps it in memory.
+  - If the user need to change the password, repeat the step 2 again.
+
 ## Dependency
 
   - https://github.com/ricmoo/pyaes
