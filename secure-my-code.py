@@ -463,6 +463,7 @@ try:
 except:
     notepad.curPassword = None
     notepad.curPos      = 0
+    notepad.firstVisibleLine=0
 
 def AskForPassword():
     '''Ask for the password, then store it in memory. So no need to input the password again.'''
@@ -476,12 +477,13 @@ def EncryptWenDoc(args):
 
     editor.setUndoCollection(False)
     try:
-        if args.get("bufferID") and notepad.getBufferFilename(args["bufferID"])[-4:] == '.cpp':
+        if args.get("bufferID") and notepad.getBufferFilename(args["bufferID"])[-4:] == '.wen':
             notepad.activateBufferID(args["bufferID"])
             notepad.setEncoding(BUFFERENCODING.UTF8)
 
             # save the current cursor position and restore it after SAVED NOTIFICATION.
             notepad.curPos = editor.getCurrentPos()
+            notepad.firstVisibleLine = editor.getFirstVisibleLine()
 
             text = editor.getText()
 
@@ -506,13 +508,14 @@ def DecryptWenDoc(args):
     editor.setUndoCollection(False)
 
     try:
-        if args.get("bufferID") and notepad.getBufferFilename(args["bufferID"])[-4:] == '.cpp':
+        if args.get("bufferID") and notepad.getBufferFilename(args["bufferID"])[-4:] == '.wen':
             notepad.activateBufferID(args["bufferID"])
             encrypted_text = editor.getText()
 
             text = decrypt_ciphertext(notepad.curPassword, base64.urlsafe_b64decode(encrypted_text))
 
             editor.setText(text)
+            editor.setFirstVisibleLine(notepad.firstVisibleLine)
             editor.gotoPos(notepad.curPos)
     except:
         traceback.print_exc()
